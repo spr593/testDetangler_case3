@@ -1,6 +1,8 @@
+from sklearn.metrics import precision_score, recall_score, f1_score
 from data_loader import *
 from preprocessing import *
-from sklearn.metrics import precision_score, recall_score, f1_score
+from logistic_regression import *
+from svm import * 
 
 def compare_models (ypred_m1, ypred_m2):
     precision = precision_score(ypred_m1, ypred_m2, average="binary")
@@ -11,14 +13,16 @@ def compare_models (ypred_m1, ypred_m2):
 
 if __name__=="__main":
     filepath = ""
-    data_content = load_data(filepath)
-    preproc_data = scale_features(data_content)
-    preproc_lables = encode_labels(data_content)
+    X,y = load_data(filepath)
+    preproc_data = scale_features(X,y)
+    preproc_lables = encode_labels(X,y)
 
     #Call algorithm 1 - Logistic Regression
 
 
     #Call agorithm 2 - SVM
-
-
+    svm = SVM(kernel='radial')
+    Xtest_svm, ytest_svm = svm.train_svm (X,y)
+    report = svm.evaluate_model(ytest_svm, y)
+    
     #Compare models metrics
